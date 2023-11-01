@@ -8,4 +8,5 @@ log.*
 
 .merlin
 _build
+_opam
 
