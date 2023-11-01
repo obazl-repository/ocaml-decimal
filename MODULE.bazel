@@ -20,6 +20,7 @@ bazel_dep(name = "ocaml",        version = "0.0.0")
 register_toolchains("@ocaml//toolchain/selectors/local:all")
 register_toolchains("@ocaml//toolchain/profiles:all")
 
+bazel_dep(name = "ppxlib",            version = "0.0.0")
 bazel_dep(name = "zarith",            version = "0.0.0")
 
 ## dev/test deps

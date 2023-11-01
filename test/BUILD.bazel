@@ -32,9 +32,16 @@ ocaml_exec_module(
     name   = "Decimal_test",
     struct = "decimal_test.ml",
     deps   = DEPS_DECIMAL_TEST + [
+        ":Float",
         ":Json",
         ":Parser"
     ],
+)
+
+ocaml_module(
+    name          = "Float",
+    struct        = "float.ml",
+    deps          = DEPS_DECIMAL_TEST,
 )
 
 ocaml_module(
