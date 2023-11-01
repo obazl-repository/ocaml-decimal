@@ -1,0 +1,12 @@
+load("@bazel_skylib//rules:copy_directory.bzl", "copy_directory")
+
+# this is required to make the files in test/data accessible
+# to the test executable (test:decimal_test) under path 'data'
+# instead of 'test/data':
+copy_directory(
+    name = "copy_decTests",
+    src  = "//test:data",
+    out  = "data",
+    visibility = ["//visibility:public"],
+)
+

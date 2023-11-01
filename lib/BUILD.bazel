@@ -1,0 +1,45 @@
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_ns_archive",
+     "ocaml_module",
+     "ocaml_signature",
+)
+
+DEPS_1 = [
+    "@ocaml//lib/str",
+    "@zarith//lib/zarith"
+]
+
+############################# Aggregates #############################
+ocaml_ns_archive(
+    name       = "decimal",
+    ns_name    = "decimal",
+    manifest = [
+        ":Calc",
+        ":Decimal"
+    ],
+)
+
+######################## Modules & Signatures ########################
+ocaml_module(
+    name          = "Decimal",
+    struct        = "decimal.ml",
+    sig           = ":Decimal_cmi",
+    deps          = DEPS_1 + [
+        ":Calc"
+    ],
+)
+ocaml_signature(
+    name          = "Decimal_cmi",
+    src           = "decimal.mli",
+    deps          = DEPS_1,
+)
+
+
+ocaml_module(
+    name          = "Calc",
+    struct        = "calc.ml",
+    deps          = DEPS_1,
+)
+

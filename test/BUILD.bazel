@@ -1,0 +1,50 @@
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_exec_module",
+     "ocaml_module",
+     "ocaml_test",
+)
+
+# //:copy_decTests copies dir 'test/data' to 'data'
+# so we need to export it. we do this to avoid editing
+# decimal_test.ml, which reads files with 'data/' prefix,
+# e.g. "data/abs.decTest". If we add them directly as runtime
+# data they would be accessible as e.g. 'test/data/abs.decTest'
+exports_files(["data"])
+
+DEPS_DECIMAL_TEST = [
+    "@alcotest//lib/alcotest",
+    "@angstrom//lib/angstrom",
+    "//lib:decimal"
+]
+
+
+ocaml_test(
+    name     = "decimal_test",
+    main     = ":Decimal_test",
+    data   = ["//:copy_decTests"],
+    timeout = "short",
+    visibility = ["//visibility:public"],
+)
+
+ocaml_exec_module(
+    name   = "Decimal_test",
+    struct = "decimal_test.ml",
+    deps   = DEPS_DECIMAL_TEST + [
+        ":Json",
+        ":Parser"
+    ],
+)
+
+ocaml_module(
+    name          = "Json",
+    struct        = "json.ml",
+    deps          = DEPS_DECIMAL_TEST,
+)
+
+ocaml_module(
+    name          = "Parser",
+    struct        = "parser.ml",
+    deps          = DEPS_DECIMAL_TEST,
+)
